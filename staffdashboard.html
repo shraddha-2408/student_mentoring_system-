@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Staff Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+}
+
+/* HEADER */
+.header {
+    font-size: 30px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+/* NAVBAR */
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.nav button {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    background: #e0e0e0;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.nav button:hover {
+    background: #cfcfcf;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    STAFF DASHBOARD
+</div>
+
+<div class="nav">
+    <button onclick="staffHome()">Staff Home</button>
+    <button onclick="viewDoubts()">View Doubts</button>
+    <button onclick="reportParents()">Report to Parents</button>
+    <button onclick="allReports()">All Reports</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+
+// Staff Home page
+function staffHome() {
+    window.location.href = "staffdetails.html";
+}
+
+// View doubts
+function viewDoubts() {
+    window.location.href = "viewdoubts.html";
+}
+
+// Report to parents
+function reportParents() {
+    window.location.href = "reportparents.html";
+}
+
+// All reports
+function allReports() {
+    window.location.href = "allreports.html";
+}
+
+// Logout
+function logout() {
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

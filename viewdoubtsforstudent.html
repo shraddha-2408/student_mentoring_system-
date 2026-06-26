@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Teacher Panel</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #0b1a33, #162a52);
+    color: white;
+    text-align: center;
+}
+
+table {
+    width: 90%;
+    margin: 20px auto;
+    background: white;
+    color: black;
+    border-collapse: collapse;
+}
+
+th {
+    background: #0b1a33;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+input {
+    width: 90%;
+    padding: 5px;
+}
+
+button {
+    padding: 6px 12px;
+    background: #0b1a33;
+    color: white;
+    border: none;
+}
+.dashboard-btn {
+    margin-top: 15px;
+    padding: 10px 18px;
+    background: #28a745;   /* green */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.dashboard-btn:hover {
+    background: #218838;   /* darker green */
+}
+</style>
+</head>
+
+<body>
+
+<h2>Teacher Panel</h2>
+
+<table id="table">
+<tr>
+<th>Name</th>
+<th>Roll</th>
+<th>Doubt</th>
+<th>Reply</th>
+<th>Action</th>
+</tr>
+</table>
+
+<button class="dashboard-btn" onclick="goToDashboard()">
+    Go to Dashboard
+</button>
+</button>
+<script>
+
+// 🔐 Only teacher allowed
+if (localStorage.getItem("role") !== "teacher") {
+    window.location.href = "studentdashboard.html";
+}
+let data = JSON.parse(localStorage.getItem("doubts")) || [];
+let table = document.getElementById("table");
+
+// No data
+if (data.length === 0) {
+    let row = table.insertRow();
+    row.insertCell(0).colSpan = 5;
+    row.cells[0].innerText = "No doubts";
+}
+
+// Show doubts
+data.forEach((d, index) => {
+    let row = table.insertRow();
+
+    row.insertCell(0).innerText = d.name;
+    row.insertCell(1).innerText = d.roll;
+    row.insertCell(2).innerText = d.doubt;
+
+    // ✅ Teacher can type reply
+    let input = document.createElement("input");
+    input.value = d.answer || "";
+    row.insertCell(3).appendChild(input);
+
+    // ✅ Send button
+    let btn = document.createElement("button");
+    btn.innerText = "Send";
+
+    btn.onclick = function () {
+
+    let reply = input.value.trim();   // remove spaces
+
+    // ❌ Prevent empty reply
+    if (reply === "") {
+        alert("Please write a reply before sending!");
+        return;
+    }
+
+    // ✅ Save only valid reply
+    data[index].answer = reply;
+    localStorage.setItem("doubts", JSON.stringify(data));
+
+    alert("Reply saved successfully!");
+};
+    row.insertCell(4).appendChild(btn);
+});
+
+function goToDashboard() {
+    window.location.href = "staffdashboard.html";
+}
+
+</script>
+
+</body>
+</html>

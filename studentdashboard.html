@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Home</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+}
+
+.header {
+    font-size: 28px;
+    padding: 20px;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.nav button {
+    padding: 12px 18px;
+    background: #e0e0e0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* ✅ NEW: Meeting Box */
+.meeting-box {
+    background: white;
+    color: black;
+    width: 400px;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">STUDENT DASHBOARD</div>
+
+<div class="nav">
+    <button onclick="studentHome()">Student Home</button>
+    <button onclick="askDoubt()">Ask Doubt</button>
+    <button onclick="openMeeting()">Upcoming Meeting</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<!-- ✅ NEW: Meeting Section -->
+
+
+<script>
+
+// ✅ LOAD MEETING DATA
+function loadMeeting() {
+    let data = JSON.parse(localStorage.getItem("meetingData"));
+    let box = document.getElementById("meetingBox");
+
+    if (!data) {
+        box.innerHTML = "No meeting scheduled";
+        return;
+    }
+
+    box.innerHTML = `
+        <p><b>Mentor:</b> ${data.mentor}</p>
+        <p><b>Batch:</b> ${data.batch}</p>
+        <p><b>Date:</b> ${data.date}</p>
+        <p><b>Time:</b> ${data.time}</p>
+        <p><b>Link:</b> <a href="${data.link}" target="_blank">Join Meeting</a></p>
+    `;
+}
+
+// NAVIGATION
+function studentHome() {
+    window.location.href = "mentordiary.html";
+}
+
+function askDoubt() {
+    window.location.href = "askdoubts.html";
+}
+
+function viewReply() {
+    window.location.href = "viewreply.html";
+}
+
+function openMeeting() {
+    window.location.href = "upcomingmeeting.html"; 
+}
+
+function logout() {
+    window.location.href = "index.html";
+}
+
+// ✅ LOAD WHEN PAGE OPENS
+window.onload = loadMeeting;
+
+</script>
+
+</body>
+</html>

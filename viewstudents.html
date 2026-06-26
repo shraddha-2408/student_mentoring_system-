@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>View Students</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    margin: 0;
+}
+
+.header {
+    text-align: center;
+    padding: 15px;
+}
+
+.table-container {
+    width: 95%;
+    margin: 20px auto;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    color: black;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background: #ddd;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.dashboard-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.no-data {
+    text-align: center;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Student Records</h2>
+</div>
+
+<div class="table-container">
+    <table id="table">
+        <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>PRN</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Action</th>
+        </tr>
+    </table>
+</div>
+
+<div id="msg" class="no-data"></div>
+
+<button onclick="goToDashboard()" class="dashboard-btn">Go to Dashboard</button>
+
+<script>
+
+let data = JSON.parse(localStorage.getItem("mentorDiary")) || [];
+let table = document.getElementById("table");
+let msg = document.getElementById("msg");
+
+if (data.length === 0) {
+    msg.innerText = "No students found";
+} else {
+
+    data.forEach((s, index) => {
+        let row = table.insertRow();
+
+        // Photo
+        let imgCell = row.insertCell(0);
+        if (s.photo) {
+            imgCell.innerHTML = `<img src="${s.photo}">`;
+        } else {
+            imgCell.innerText = "-";
+        }
+
+        row.insertCell(1).innerText = s.name;
+        row.insertCell(2).innerText = s.prn;
+        row.insertCell(3).innerText = s.dept;
+        row.insertCell(4).innerText = s.email;
+        row.insertCell(5).innerText = s.contact;
+
+        // Delete button
+        let actionCell = row.insertCell(6);
+        actionCell.innerHTML = `<button class="delete-btn" onclick="deleteStudent(${index})">Delete</button>`;
+    });
+}
+
+// Delete function
+function deleteStudent(index) {
+    let data = JSON.parse(localStorage.getItem("mentorDiary")) || [];
+    data.splice(index, 1);
+    localStorage.setItem("mentorDiary", JSON.stringify(data));
+    location.reload();
+}
+
+// Redirect
+function goToDashboard() {
+    window.location.href = "admindashboard.html";
+}
+
+</script>
+
+</body>
+</html>

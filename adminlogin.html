@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b1a33;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* LOGIN BOX */
+.login-box {
+    background: white;
+    padding: 30px;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* ERROR TEXT */
+.error {
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-left: 15px;
+    display: none;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #0b1a33;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #162a52;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+    <h2>Admin Login</h2>
+
+    <input type="text" id="username" placeholder="Enter Username">
+    <div class="error" id="userError">Enter valid username (min 3 characters)</div>
+
+    <input type="password" id="password" placeholder="Enter Password">
+    <div class="error" id="passError">Password must be at least 4 characters</div>
+
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+
+function login() {
+    let user = document.getElementById("username").value.trim();
+    let pass = document.getElementById("password").value.trim();
+
+    let valid = true;
+
+    // USERNAME VALIDATION
+    if (user.length < 3) {
+        document.getElementById("userError").style.display = "block";
+        valid = false;
+    } else {
+        document.getElementById("userError").style.display = "none";
+    }
+
+    // PASSWORD VALIDATION
+    if (pass.length < 4) {
+        document.getElementById("passError").style.display = "block";
+        valid = false;
+    } else {
+        document.getElementById("passError").style.display = "none";
+    }
+
+    if (!valid) return;
+
+    // LOGIN CHECK
+    if (user === "admin" && pass === "1234") {
+
+        // ✅ STORE SESSION
+        localStorage.setItem("adminLoggedIn", "true");
+
+        // REDIRECT
+        window.location.href = "admindashboard.html";
+
+    } else {
+        alert("Invalid Username or Password");
+    }
+}
+
+</script>
+
+</body>
+</html>

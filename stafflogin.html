@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Staff Login</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b1a33;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* LOGIN BOX */
+.login-box {
+    background: white;
+    padding: 30px;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #0b1a33;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #162a52;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+    <h2>Staff Login</h2>
+
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+function login() {
+    var user = document.getElementById("username").value;
+    var pass = document.getElementById("password").value;
+
+    // SIMPLE LOGIN CHECK
+    if (user === "staff" && pass === "1234") {
+        window.location.href = "staffdashboard.html"; // next page
+    } else {
+        alert("Invalid Username or Password");
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Multiple Staff</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    color: black;
+    width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+input {
+    padding: 8px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.row {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+button {
+    padding: 10px;
+    margin-top: 15px;
+    width: 90%;
+    background: #0b1a33;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.dashboard-btn {
+    background: #28a745;
+    width: 250px;
+}
+
+table {
+    width: 90%;
+    margin: 20px auto;
+    background: white;
+    color: black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Add 3 Staff at Once</h1>
+
+<div class="container">
+
+<div class="row">
+<h3>Staff 1</h3>
+<input id="name1" placeholder="Name">
+<input id="mobile1" placeholder="Mobile">
+<input id="email1" placeholder="Email">
+<input id="dept1" placeholder="Department">
+</div>
+
+<div class="row">
+<h3>Staff 2</h3>
+<input id="name2" placeholder="Name">
+<input id="mobile2" placeholder="Mobile">
+<input id="email2" placeholder="Email">
+<input id="dept2" placeholder="Department">
+</div>
+
+<div class="row">
+<h3>Staff 3</h3>
+<input id="name3" placeholder="Name">
+<input id="mobile3" placeholder="Mobile">
+<input id="email3" placeholder="Email">
+<input id="dept3" placeholder="Department">
+</div>
+
+<button onclick="saveMultipleStaff()">Save All Staff</button>
+
+</div>
+
+<h2>Staff List</h2>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Mobile</th>
+<th>Email</th>
+<th>Department</th>
+</tr>
+</thead>
+<tbody id="staffTable"></tbody>
+</table>
+
+<button class="dashboard-btn" onclick="goToStaffDetails()">View Staff Dashboard</button>
+
+<script>
+
+function saveMultipleStaff() {
+
+    let newStaff = [];
+    let emailsInForm = [];
+
+    let existingStaff = JSON.parse(localStorage.getItem("staff")) || [];
+    let existingEmails = existingStaff.map(s => s.email);
+
+    for (let i = 1; i <= 3; i++) {
+
+        let name = document.getElementById("name" + i).value.trim();
+        let mobile = document.getElementById("mobile" + i).value.trim();
+        let email = document.getElementById("email" + i).value.trim();
+        let dept = document.getElementById("dept" + i).value.trim();
+
+        // Skip empty rows
+        if (name === "" && email === "") continue;
+
+        // Required fields
+        if (!name || !mobile || !email || !dept) {
+            alert("Fill all fields for Staff " + i);
+            return;
+        }
+
+        // Name validation
+        let namePattern = /^[A-Za-z ]+$/;
+        if (!namePattern.test(name)) {
+            alert("Invalid name for Staff " + i);
+            return;
+        }
+
+        // Mobile validation
+        let mobilePattern = /^[0-9]{10}$/;
+        if (!mobilePattern.test(mobile)) {
+            alert("Mobile must be 10 digits for Staff " + i);
+            return;
+        }
+
+        // Email validation
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Invalid email for Staff " + i);
+            return;
+        }
+
+        // Duplicate in form
+        if (emailsInForm.includes(email)) {
+            alert("Duplicate email in form: " + email);
+            return;
+        }
+
+        // Duplicate in storage
+        if (existingEmails.includes(email)) {
+            alert("Email already exists: " + email);
+            return;
+        }
+
+        emailsInForm.push(email);
+        newStaff.push({ name, mobile, email, dept });
+    }
+
+    if (newStaff.length === 0) {
+        alert("No data entered");
+        return;
+    }
+
+    // 👉 Choose ONE behavior:
+
+    // ✅ Option 1: Overwrite old data
+    localStorage.setItem("staff", JSON.stringify(newStaff));
+
+    // ✅ Option 2 (better): Append data (uncomment below and comment above)
+    // let updatedStaff = [...existingStaff, ...newStaff];
+    // localStorage.setItem("staff", JSON.stringify(updatedStaff));
+
+    alert("Staff saved successfully!");
+
+    clearForm();
+    displayStaff();
+}
+
+function displayStaff() {
+    let staffList = JSON.parse(localStorage.getItem("staff")) || [];
+    let table = document.getElementById("staffTable");
+    table.innerHTML = "";
+
+    staffList.forEach(s => {
+        table.innerHTML += `
+        <tr>
+            <td>${s.name}</td>
+            <td>${s.mobile}</td>
+            <td>${s.email}</td>
+            <td>${s.dept}</td>
+        </tr>`;
+    });
+}
+
+function clearForm() {
+    for (let i = 1; i <= 3; i++) {
+        document.getElementById("name" + i).value = "";
+        document.getElementById("mobile" + i).value = "";
+        document.getElementById("email" + i).value = "";
+        document.getElementById("dept" + i).value = "";
+    }
+}
+
+function goToStaffDetails() {
+    window.location.href = "staffdetails.html";
+}
+
+window.onload = displayStaff;
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>All Reports</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+/* TABLE */
+table {
+    width: 95%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    color: black;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+th {
+    background: #ddd;
+}
+
+/* 🟢 Green Dashboard Button */
+.dashboard-btn {
+    margin-top: 15px;
+    padding: 10px 18px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.dashboard-btn:hover {
+    background: #218838;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Reports Sent to Parents</h1>
+
+<table id="reportTable">
+    <tr>
+        <th>Name</th>
+        <th>Roll No</th>
+        <th>Division</th>
+        <th>Department</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Message</th>
+    </tr>
+</table>
+
+<!-- 🟢 Go to Dashboard Button -->
+<button class="dashboard-btn" onclick="goToDashboard()">Go to Dashboard</button>
+
+<script>
+
+window.onload = function() {
+
+    let reports = JSON.parse(localStorage.getItem("reports")) || [];
+    let table = document.getElementById("reportTable");
+
+    if (reports.length === 0) {
+        let row = table.insertRow();
+        let cell = row.insertCell(0);
+        cell.colSpan = 9;
+        cell.innerText = "No reports available";
+        return;
+    }
+
+    reports.forEach(r => {
+        let row = table.insertRow();
+
+        row.insertCell(0).innerText = r.name;
+        row.insertCell(1).innerText = r.roll;
+        row.insertCell(2).innerText = r.division;
+        row.insertCell(3).innerText = r.dept;
+        row.insertCell(4).innerText = r.dob;
+        row.insertCell(5).innerText = r.gender;
+        row.insertCell(6).innerText = r.email;
+        row.insertCell(7).innerText = r.mobile;
+        row.insertCell(8).innerText = r.report;
+    });
+
+};
+
+// 🟢 Go to Dashboard
+function goToDashboard() {
+    window.location.href = "staffdashboard.html";
+}
+
+</script>
+
+</body>
+</html>

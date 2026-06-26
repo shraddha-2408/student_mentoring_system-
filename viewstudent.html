@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>View Students</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+table {
+    width: 95%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    color: black;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+th {
+    background: #ddd;
+}
+
+.no-data {
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Student Records</h2>
+
+<table id="table">
+<tr>
+<th>Name</th>
+<th>Roll</th>
+<th>Division</th>
+<th>Department</th>
+<th>DOB</th>
+<th>Gender</th>
+<th>Email</th>
+<th>Mobile</th>
+</tr>
+</table>
+
+<div id="msg" class="no-data"></div>
+
+<script>
+
+let data = JSON.parse(localStorage.getItem("students")) || [];
+let table = document.getElementById("table");
+let msg = document.getElementById("msg");
+
+if (data.length === 0) {
+    msg.innerText = "No students found";
+} else {
+
+    data.forEach(s => {
+
+        let row = table.insertRow();
+
+        row.insertCell(0).innerText = s.name;
+        row.insertCell(1).innerText = s.roll;
+        row.insertCell(2).innerText = s.division;
+        row.insertCell(3).innerText = s.dept;
+        row.insertCell(4).innerText = s.dob;
+        row.insertCell(5).innerText = s.gender;
+        row.insertCell(6).innerText = s.email;
+        row.insertCell(7).innerText = s.mobile;
+
+    });
+}
+
+</script>
+
+</body>
+</html>

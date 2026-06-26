@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ask Doubt</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #0b1a33, #162a52);
+    color: white;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    color: black;
+    width: 400px;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+input, textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 8px;
+}
+
+textarea { height: 100px; }
+
+button {
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+/* 🔵 Submit */
+.submit-btn {
+    background: #0b1a33;
+    color: white;
+}
+
+/* 🟢 View Reply */
+.reply-btn {
+    background: #28a745;
+    color: white;
+    border-radius: 6px;
+}
+
+.reply-btn:hover {
+    background: #218838;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Ask Your Doubt</h2>
+
+<div class="container">
+<input id="name" placeholder="Name"><br>
+<input id="roll" placeholder="Roll No"><br>
+<textarea id="doubt" placeholder="Write doubt"></textarea><br>
+
+<button class="submit-btn" onclick="saveDoubt()">Submit</button>
+<button class="reply-btn" onclick="viewReply()">View Reply</button>
+</button>
+</div>
+
+<script>
+
+function saveDoubt() {
+    let name = document.getElementById("name").value.trim();
+    let roll = document.getElementById("roll").value.trim();
+    let doubt = document.getElementById("doubt").value.trim();
+
+    if (!name || !roll || !doubt) {
+        alert("Fill all fields");
+        return;
+    }
+
+    let data = { name, roll, doubt, answer: "" };
+
+    let doubts = JSON.parse(localStorage.getItem("doubts")) || [];
+    doubts.push(data);
+    localStorage.setItem("doubts", JSON.stringify(doubts));
+
+    alert("Doubt submitted!");
+
+    document.getElementById("name").value = "";
+    document.getElementById("roll").value = "";
+    document.getElementById("doubt").value = "";
+}
+
+// 🔹 Go to student reply page (NOT teacher page)
+function viewReply() {
+    window.location.href = "viewreply.html";
+}
+
+</script>
+
+</body>
+</html>

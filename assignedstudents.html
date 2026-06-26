@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assigned Students</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    margin: 0;
+    text-align: center;
+}
+
+.header {
+    font-size: 28px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    color: black;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 12px;
+}
+
+th {
+    background: #ddd;
+}
+
+.no-data {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+/* 🔵 default button */
+button {
+    padding: 10px 20px;
+    background: #0b1a33;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+/* 🟢 dashboard button */
+.dashboard-btn {
+    background: #28a745;
+}
+
+.dashboard-btn:hover {
+    background: #218838;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">Assigned Students with Mentor</div>
+
+<table id="table">
+<tr>
+<th>Student Name</th>
+<th>Roll No</th>
+<th>Division</th>
+<th>Mentor Name</th>
+</tr>
+</table>
+
+<div id="msg" class="no-data"></div>
+
+<!-- 🟢 Go to Dashboard Button -->
+<button class="dashboard-btn" onclick="goToDashboard()">
+    Go to Dashboard
+</button>
+
+<script>
+
+let data = JSON.parse(localStorage.getItem("assignedStudents")) || [];
+let table = document.getElementById("table");
+let msg = document.getElementById("msg");
+
+if (data.length === 0) {
+    msg.innerText = "No assigned students found";
+} else {
+
+    data.forEach(item => {
+
+        let row = table.insertRow();
+
+        row.insertCell(0).innerText = item.studentName;
+        row.insertCell(1).innerText = item.roll;
+        row.insertCell(2).innerText = item.division;
+        row.insertCell(3).innerText = item.mentorName;
+
+    });
+}
+
+// 🚪 Redirect function
+function goToDashboard() {
+    window.location.href = "mentordashboard.html"; 
+}
+
+</script>
+
+</body>
+</html>

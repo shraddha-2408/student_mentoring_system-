@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mentor Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+}
+
+.header {
+    font-size: 30px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.nav button {
+    padding: 12px 18px;
+    background: #e0e0e0;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav button:hover {
+    background: #cfcfcf;
+}
+
+/* Hidden initially */
+#homeSection {
+    display: none;
+}
+
+.container {
+    background: white;
+    color: black;
+    width: 350px;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+input, select {
+    width: 90%;
+    padding: 8px;
+    margin: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.save-btn {
+    background: #0b1a33;
+    color: white;
+    width: 90%;
+}
+
+.card {
+    background: white;
+    color: black;
+    padding: 15px;
+    width: 320px;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">MENTOR DASHBOARD</div>
+
+<div class="nav">
+    <button onclick="home()">Mentor Home</button>
+    <button onclick="assignstudents()">Assign Students</button>
+    <button onclick="students()">Assigned Students</button>
+    <button onclick="performance()">Performance</button>
+    <button onclick="meetings()">Meetings</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<div id="homeSection">
+
+    <div class="container">
+        <input type="text" id="name" placeholder="Mentor Name"><br>
+        <input type="text" id="mobile" placeholder="Mobile"><br>
+        <input type="email" id="email" placeholder="Email"><br>
+
+        <select id="gender">
+            <option value="">Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+        </select><br>
+
+        <input type="date" id="dob"><br>
+        <input type="text" id="dept" placeholder="Department"><br>
+
+        <button class="save-btn" onclick="saveMentor()">Save</button>
+    </div>
+
+    <div id="mentorList"></div>
+
+</div>
+
+<script>
+
+// SHOW HOME
+function home() {
+    document.getElementById("homeSection").style.display = "block";
+    loadMentors();
+}
+
+// SAVE
+function saveMentor() {
+
+    let mentor = {
+        name: document.getElementById("name").value.trim(),
+        mobile: document.getElementById("mobile").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        gender: document.getElementById("gender").value,
+        dob: document.getElementById("dob").value,
+        dept: document.getElementById("dept").value.trim()
+    };
+
+    if (!mentor.name || !mentor.mobile || !mentor.email) {
+        alert("Please fill required fields");
+        return;
+    }
+
+    let mentors = JSON.parse(localStorage.getItem("mentors")) || [];
+    mentors.push(mentor);
+
+    localStorage.setItem("mentors", JSON.stringify(mentors));
+
+    alert("Mentor saved successfully!");
+
+    document.querySelectorAll("input").forEach(e => e.value = "");
+    document.getElementById("gender").value = "";
+
+    loadMentors();
+}
+
+// LOAD
+function loadMentors() {
+
+    let data = JSON.parse(localStorage.getItem("mentors")) || [];
+    let container = document.getElementById("mentorList");
+
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+        container.innerHTML = "<p>No mentors added yet</p>";
+        return;
+    }
+
+    data.forEach(m => {
+        container.innerHTML += `
+            <div class="card">
+                <p><b>Name:</b> ${m.name}</p>
+                <p><b>Mobile:</b> ${m.mobile}</p>
+                <p><b>Email:</b> ${m.email}</p>
+                <p><b>Gender:</b> ${m.gender}</p>
+                <p><b>DOB:</b> ${m.dob}</p>
+                <p><b>Department:</b> ${m.dept}</p>
+            </div>
+        `;
+    });
+}
+
+// NAVIGATION
+
+function assignstudents() {
+    window.location.href = "assignstudents.html";
+}
+function students() {
+    window.location.href = "assignedstudents.html";
+}
+
+function performance() {
+    window.location.href = "performance.html";
+}
+
+function meetings() {
+    window.location.href = "meetings.html";
+}
+
+function logout() {
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

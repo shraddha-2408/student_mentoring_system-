@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mentor Meeting Record</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+    text-align: center;
+}
+
+.container {
+    width: 450px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px;
+}
+
+button {
+    padding: 10px 20px;
+    background: #0b1a33;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.dashboard-btn {
+    background: #28a745;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Mentor Meeting Record</h2>
+
+    <input type="text" id="mentor" placeholder="Mentor Name">
+    <input type="text" id="batch" placeholder="Batch Name">
+    <input type="date" id="date">
+    <input type="time" id="time">
+    <input type="text" id="link" placeholder="Meeting Link">
+
+    <br><br>
+
+    <button onclick="saveRecord()">Save Record</button>
+
+    <button class="dashboard-btn" onclick="goToDashboard()">
+        Go to Dashboard
+    </button>
+</div>
+
+<script>
+
+function saveRecord() {
+    let meeting = {
+        mentor: document.getElementById("mentor").value,
+        batch: document.getElementById("batch").value,
+        date: document.getElementById("date").value,
+        time: document.getElementById("time").value,
+        link: document.getElementById("link").value
+    };
+
+    if (!meeting.mentor || !meeting.batch || !meeting.date || !meeting.time || !meeting.link) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    // ✅ allow multiple meetings
+    let meetings = JSON.parse(localStorage.getItem("meetingData")) || [];
+    meetings.push(meeting);
+
+    localStorage.setItem("meetingData", JSON.stringify(meetings));
+
+    alert("Meeting Saved!");
+
+    document.querySelectorAll("input").forEach(i => i.value = "");
+}
+
+function goToDashboard() {
+    window.location.href = "mentordashboard.html";
+}
+
+</script>
+
+</body>
+</html>

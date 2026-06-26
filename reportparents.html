@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Report to Parents</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    color: black;
+    width: 450px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+input, select, textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 8px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    height: 100px;
+}
+
+button {
+    padding: 10px 20px;
+    background: #0b1a33;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #162a52;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Report to Parents</h1>
+
+<div class="container">
+
+    <input type="text" id="name" placeholder="Student Name"><br>
+    <input type="text" id="roll" placeholder="Roll No"><br>
+    <input type="text" id="division" placeholder="Division"><br>
+    <input type="text" id="dept" placeholder="Department"><br>
+
+    <input type="date" id="dob"><br>
+
+    <select id="gender">
+        <option value="" disabled selected hidden>Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select><br>
+
+    <input type="email" id="email" placeholder="Email"><br>
+    <input type="text" id="mobile" placeholder="Mobile"><br>
+
+    <!-- REPORT FIELD -->
+    <textarea id="report" placeholder="Write Report to Parent"></textarea><br>
+
+    <button onclick="saveReport()">Submit Report</button>
+    <button onclick="allReport()">All Report</button>
+</div>
+
+<script>
+
+function saveReport() {
+    let data = {
+        name: document.getElementById("name").value,
+        roll: document.getElementById("roll").value,
+        division: document.getElementById("division").value,
+        dept: document.getElementById("dept").value,
+        dob: document.getElementById("dob").value,
+        gender: document.getElementById("gender").value,
+        email: document.getElementById("email").value,
+        mobile: document.getElementById("mobile").value,
+        report: document.getElementById("report").value
+    };
+
+    // VALIDATION
+    if (!data.name || !data.roll || !data.dob || data.gender === "" || !data.report) {
+        alert("Please fill all required fields");
+        return;
+    }
+
+    let reports = JSON.parse(localStorage.getItem("reports")) || [];
+    reports.push(data);
+
+    localStorage.setItem("reports", JSON.stringify(reports));
+
+    alert("Report submitted successfully!");
+
+    // Clear form
+    document.querySelectorAll("input, textarea").forEach(e => e.value = "");
+    document.getElementById("gender").value = "";
+}
+function allReport() {
+    window.location.href = "allreports.html";
+}
+
+</script>
+
+</body>
+</html>

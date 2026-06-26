@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+}
+
+/* HEADER */
+.header {
+    font-size: 32px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+/* NAV */
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.nav button {
+    padding: 12px 20px;
+    font-weight: bold;
+    background: #e0e0e0;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* PROFILE BOX */
+.profile-box {
+    display: none;
+    background: white;
+    color: black;
+    width: 420px;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    STUDENT MENTORING SYSTEM
+</div>
+
+<h2>Admin Dashboard</h2>
+
+<div class="nav">
+    <button onclick="showAdminHome()">Admin Home</button>
+    <button onclick="addStaff()">Add Staff</button>
+    <button onclick="viewStudent()">View Student</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<!-- ✅ HOD DETAILS DISPLAY -->
+<div class="profile-box" id="profileBox">
+    <h3 style="text-align:center;">HOD Profile</h3>
+
+    <p><b>Name:</b> Mahesh Gaikwad</p>
+    <p><b>Education:</b> PhD in Computer Science</p>
+    <p><b>Mobile:</b> 9766802914</p>
+    <p><b>Email:</b> hod@example.com</p>
+    <p><b>Gender:</b> Male</p>
+    <p><b>DOB:</b> 10-05-1980</p>
+    <p><b>Department:</b> Computer Science</p>
+</div>
+
+<script>
+
+// SHOW HOD DETAILS
+function showAdminHome() {
+    document.getElementById("profileBox").style.display = "block";
+}
+
+// NAVIGATION
+function addStaff() {
+    window.location.href = "addstaff.html";
+}
+
+function viewStudent() {
+    window.location.href = "viewstudents.html";
+}
+
+// LOGOUT
+function logout() {
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

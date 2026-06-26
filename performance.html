@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mentor Performance</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f4f6f9;
+    margin: 0;
+}
+
+.header {
+    background: #0b1b3a;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+.form-box {
+    background: white;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #ccc;
+}
+
+input {
+    padding: 8px;
+    margin: 5px;
+    width: 18%;
+}
+
+button {
+    padding: 8px 15px;
+    background: #0b1b3a;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #0b1b3a;
+    color: white;
+}
+
+/* 🟢 Dashboard Button Center */
+.dashboard-center {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.dashboard-btn {
+    background: #28a745;
+}
+
+.dashboard-btn:hover {
+    background: #218838;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Performance Management</h1>
+</div>
+
+<div class="container">
+
+<!-- FORM -->
+<div class="form-box">
+    <h3>Add Student Performance</h3>
+
+    <input type="text" id="name" placeholder="Student Name">
+    <input type="text" id="roll" placeholder="Roll No">
+    <input type="number" id="attendance" placeholder="Attendance %">
+    <input type="number" id="score" placeholder="Test Score %">
+
+    <button onclick="addStudent()">Add</button>
+</div>
+
+<!-- TABLE -->
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Roll No</th>
+            <th>Attendance</th>
+            <th>Score</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody id="tableBody"></tbody>
+</table>
+
+<!-- 🟢 GO TO DASHBOARD -->
+<div class="dashboard-center">
+    <button class="dashboard-btn" onclick="goToDashboard()">
+        Go to Dashboard
+    </button>
+</div>
+
+</div>
+
+<script>
+let students = JSON.parse(localStorage.getItem("performance")) || [];
+
+function renderTable() {
+    let table = document.getElementById("tableBody");
+    table.innerHTML = "";
+
+    students.forEach(s => {
+        let status = "";
+
+        if (s.score >= 80) status = "Good 👍";
+        else if (s.score >= 50) status = "Average 🙂";
+        else status = "Weak ⚠️";
+
+        table.innerHTML += `
+        <tr>
+            <td>${s.name}</td>
+            <td>${s.roll}</td>
+            <td>${s.attendance}%</td>
+            <td>${s.score}%</td>
+            <td>${status}</td>
+        </tr>`;
+    });
+}
+
+function addStudent() {
+    let name = document.getElementById("name").value;
+    let roll = document.getElementById("roll").value;
+    let attendance = document.getElementById("attendance").value;
+    let score = document.getElementById("score").value;
+
+    if (!name || !roll || !attendance || !score) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    let student = { name, roll, attendance, score };
+    students.push(student);
+
+    localStorage.setItem("performance", JSON.stringify(students));
+
+    renderTable();
+
+    document.getElementById("name").value = "";
+    document.getElementById("roll").value = "";
+    document.getElementById("attendance").value = "";
+    document.getElementById("score").value = "";
+}
+
+// 🚪 Redirect function
+function goToDashboard() {
+    window.location.href = "mentordashboard.html"; 
+}
+
+renderTable();
+</script>
+
+</body>
+</html>

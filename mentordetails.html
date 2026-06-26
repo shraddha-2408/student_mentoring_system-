@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mentor Home</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b1a33;
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+
+.header {
+    font-size: 28px;
+    font-weight: bold;
+    padding: 20px;
+    background: #081225;
+}
+
+button {
+    padding: 12px 18px;
+    margin-top: 20px;
+    font-weight: bold;
+    background: #e0e0e0;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #cfcfcf;
+}
+
+#mentorInfo {
+    margin-top: 30px;
+    font-size: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    MENTOR HOME
+</div>
+
+<!-- BUTTON -->
+<button onclick="showMentor()">Mentor Details</button>
+
+<!-- DISPLAY AREA -->
+<div id="mentorInfo"></div>
+
+<script>
+
+// Example stored data (replace with login system later)
+localStorage.setItem("mentorName", "John Doe");
+localStorage.setItem("batch", "BCA-2");
+
+function showMentor() {
+
+    let name = localStorage.getItem("mentorName");
+    let batch = localStorage.getItem("batch");
+
+    if (!name || !batch) {
+        document.getElementById("mentorInfo").innerHTML =
+            "<p>No mentor data found</p>";
+        return;
+    }
+
+    document.getElementById("mentorInfo").innerHTML = `
+        <p><b>Mentor Name:</b> ${name}</p>
+        <p><b>Assigned Batch:</b> ${batch}</p>
+    `;
+}
+
+</script>
+
+</body>
+</html>

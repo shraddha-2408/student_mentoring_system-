@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mentor Diary Form</title>
+
+<style>
+body { font-family: Arial; margin: 20px; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+td { padding: 8px; }
+
+input { width: 100%; }
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    background: #0b1a33;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.upload-btn {
+    background: #0b1a33;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-btn input {
+    display: none;
+}
+
+#errorMsg {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>MENTOR DIARY FORM</h2>
+<div id="errorMsg"></div>
+
+<form id="form">
+
+<h3>Student Information</h3>
+<table>
+<tr><td>Name</td><td><input id="name"></td></tr>
+<tr><td>PRN</td><td><input id="prn"></td></tr>
+<tr><td>Department</td><td><input id="dept"></td></tr>
+<tr><td>Contact</td><td><input id="contact"></td></tr>
+<tr><td>Email</td><td><input id="email"></td></tr>
+
+<tr>
+<td>Photo</td>
+<td>
+<label class="upload-btn">
+Upload
+<input type="file" id="photo" accept="image/*">
+</label>
+<span id="fileName">No file</span>
+</td>
+</tr>
+</table>
+
+<h3>Co-Curricular Activities (Optional)</h3>
+<table>
+<tr><th>Type</th><th>Title</th><th>Proof</th></tr>
+
+<tr>
+<td>Certification</td>
+<td><input id="cert_desc"></td>
+<td><input type="file" id="cert_file" accept="image/*"></td>
+</tr>
+
+<tr>
+<td>Add-on Course</td>
+<td><input id="addon_desc"></td>
+<td><input type="file" id="addon_file" accept="image/*"></td>
+</tr>
+
+<tr>
+<td>Online Course</td>
+<td><input id="online_desc"></td>
+<td><input type="file" id="online_file" accept="image/*"></td>
+</tr>
+
+<tr>
+<td>Internship</td>
+<td><input id="intern_desc"></td>
+<td><input type="file" id="intern_file" accept="image/*"></td>
+</tr>
+
+<tr>
+<td>Workshop</td>
+<td><input id="work_desc"></td>
+<td><input type="file" id="work_file" accept="image/*"></td>
+</tr>
+</table>
+
+<button type="submit">Submit</button>
+<button type="button" onclick="goToDashboard()">Go to Dashboard</button>
+
+</form>
+
+<script>
+
+// Convert file → Base64
+function getBase64(input) {
+    return new Promise(resolve => {
+        if (!input.files || !input.files[0]) return resolve("");
+        let reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(input.files[0]);
+    });
+}
+
+// Show selected file name
+document.getElementById("photo").addEventListener("change", function () {
+    document.getElementById("fileName").innerText =
+        this.files[0] ? this.files[0].name : "No file";
+});
+
+// Helper
+function isFilled(value) {
+    return value && value.trim() !== "" && value.trim() !== "-";
+}
+
+// Submit form
+document.getElementById("form").addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    let errorMsg = document.getElementById("errorMsg");
+
+    let nameVal = document.getElementById("name").value.trim();
+    let prnVal = document.getElementById("prn").value.trim();
+    let contactVal = document.getElementById("contact").value.trim();
+    let emailVal = document.getElementById("email").value.trim();
+
+    // Basic validation
+    if (!nameVal || !prnVal || !contactVal || !emailVal) {
+        errorMsg.innerText = "Please fill all required fields";
+        return;
+    }
+
+    // Activity validation
+    let certText = document.getElementById("cert_desc").value;
+    let addonText = document.getElementById("addon_desc").value;
+    let onlineText = document.getElementById("online_desc").value;
+    let internText = document.getElementById("intern_desc").value;
+    let workText = document.getElementById("work_desc").value;
+
+    let certFile = document.getElementById("cert_file").files[0];
+    let addonFile = document.getElementById("addon_file").files[0];
+    let onlineFile = document.getElementById("online_file").files[0];
+    let internFile = document.getElementById("intern_file").files[0];
+    let workFile = document.getElementById("work_file").files[0];
+
+    if (isFilled(certText) && !certFile) return errorMsg.innerText = "Upload Certification proof";
+    if (isFilled(addonText) && !addonFile) return errorMsg.innerText = "Upload Add-on proof";
+    if (isFilled(onlineText) && !onlineFile) return errorMsg.innerText = "Upload Online proof";
+    if (isFilled(internText) && !internFile) return errorMsg.innerText = "Upload Internship proof";
+    if (isFilled(workText) && !workFile) return errorMsg.innerText = "Upload Workshop proof";
+
+    // Create object
+    let data = {
+        name: nameVal,
+        prn: prnVal,
+        dept: document.getElementById("dept").value,
+        contact: contactVal,
+        email: emailVal,
+        photo: await getBase64(document.getElementById("photo")),
+
+        certification: certText,
+        cert_img: await getBase64(document.getElementById("cert_file")),
+
+        addon: addonText,
+        addon_img: await getBase64(document.getElementById("addon_file")),
+
+        online: onlineText,
+        online_img: await getBase64(document.getElementById("online_file")),
+
+        internship: internText,
+        intern_img: await getBase64(document.getElementById("intern_file")),
+
+        workshop: workText,
+        work_img: await getBase64(document.getElementById("work_file"))
+    };
+
+    // Save to localStorage
+    let records = JSON.parse(localStorage.getItem("mentorDiary")) || [];
+    records.push(data);
+    localStorage.setItem("mentorDiary", JSON.stringify(records));
+
+    alert("Form Submitted Successfully!");
+
+    document.getElementById("form").reset();
+    document.getElementById("fileName").innerText = "No file";
+    errorMsg.innerText = "";
+});
+
+// Redirect
+function goToDashboard() {
+    window.location.href = "studentdashboard.html";
+}
+
+</script>
+
+</body>
+</html>

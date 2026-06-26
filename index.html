@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Mentoring System</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b1a33;
+}
+
+/* HEADER TITLE */
+.header {
+    text-align: center;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+/* NAVIGATION BUTTONS */
+.nav {
+    width: 100%;
+}
+
+.nav button {
+    width: 100%;
+    padding: 15px;
+    background: #e0e0e0;   
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.nav button:hover {
+    background: #cfcfcf;   
+}
+
+/* IMAGE SECTION */
+.image-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.image-box img {
+    width: 500px;        
+    max-width: 90%;      
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    STUDENT MENTORING SYSTEM
+</div>
+
+<div class="nav">
+    <button onclick="goHome()">Home</button>
+    <button onclick="goAdmin()">Admin</button>
+    <button onclick="goStaff()">Staff</button>
+    <button onclick="goStudent()">Student</button>
+    <button onclick="goMentor()">Mentor</button>
+
+</div>
+
+<div class="image-box">
+    <img src="https://www.shutterstock.com/image-vector/online-learning-concept-features-student-600w-2745154577.jpg" alt="Student Mentoring">
+</div>
+
+<script>
+function goHome() {
+    window.location.href = "index.html";
+}
+
+function goAdmin() {
+    window.location.href = "adminlogin.html";   
+}
+
+function goStudent() {
+    window.location.href = "studentlogin.html";
+}
+
+function goStaff() {
+    window.location.href = "stafflogin.html";
+}
+
+function goMentor() {
+    window.location.href = "mentorlogin.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+function addDataToExcel(data) {
+    let sheetName = "Students";
+
+    // If sheet already exists, get it
+    let worksheet = workbook.Sheets[sheetName];
+
+    if (!worksheet) {
+        // create new sheet if not exists
+        worksheet = XLSX.utils.json_to_sheet([]);
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+    }
+
+    // convert existing sheet to JSON
+    let existingData = XLSX.utils.sheet_to_json(worksheet);
+
+    // push new data
+    existingData.push(data);
+
+    // recreate sheet (overwrite old one)
+    let newSheet = XLSX.utils.json_to_sheet(existingData);
+    workbook.Sheets[sheetName] = newSheet;
+}
